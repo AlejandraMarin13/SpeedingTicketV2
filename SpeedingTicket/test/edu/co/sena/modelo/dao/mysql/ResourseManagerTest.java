@@ -5,7 +5,6 @@
  */
 package edu.co.sena.modelo.dao.mysql;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.resources.ResourceManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
