@@ -17,6 +17,9 @@ public class RegistroEquipoPk implements Serializable {
      private String propietarioTipoDocumento;
     private String propietarioCuentaNumeroDocumento;
 
+    public RegistroEquipoPk() {
+    }
+
     public String getPropietarioEquipoIdEquipo() {
         return propietarioEquipoIdEquipo;
     }
@@ -43,7 +46,9 @@ public class RegistroEquipoPk implements Serializable {
 
     @Override
     public String toString() {
-        return "RegistroEquipoPk{" + "propietarioEquipoIdEquipo=" + propietarioEquipoIdEquipo + ", propietarioTipoDocumento=" + propietarioTipoDocumento + ", propietarioCuentaNumeroDocumento=" + propietarioCuentaNumeroDocumento + '}';
+        return "RegistroEquipoPk{" + "propietarioEquipoIdEquipo=" + propietarioEquipoIdEquipo 
+                + ", propietarioTipoDocumento=" + propietarioTipoDocumento 
+                + ", propietarioCuentaNumeroDocumento=" + propietarioCuentaNumeroDocumento + '}';
     }
    
 
