@@ -5,6 +5,7 @@
  */
 package edu.co.sena.modelo.dao.mysql;
 
+import edu.co.sena.dao.CuentaDAO;
 import edu.co.sena.modelo.dto.Cuenta;
 import edu.co.sena.modelo.dto.CuentaPk;
 import java.sql.Connection;
@@ -12,14 +13,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author PCOPEN
  */
-public class CuentaDAOImp {
-    
-      private Connection conexion;
+public class CuentaDAOImp implements CuentaDAO {
+
+    private Connection conexion;
 
     private final String SQL_SELECT = "SELECT * FROM " + getTableName() + "";
 
@@ -46,7 +48,7 @@ public class CuentaDAOImp {
             + "WHERE NUMERO_DOCUMENTO = ? "
             + "AND TIPO_DOCUMENTO = ?;";
 
-    private final String SQL_UPDATEPK = "UPDATE " + getTableName()+ "\n"
+    private final String SQL_UPDATEPK = "UPDATE " + getTableName() + "\n"
             + "SET\n"
             + "NUMERO_DOCUMENTO = ?,\n"
             + "TIPO_DOCUMENTO= ?\n"
@@ -58,114 +60,115 @@ public class CuentaDAOImp {
     private final String SQL_SELECT_COUNT = "SELECT count(*) FROM " + getTableName() + " AS COUNT";
 
     public String getTableName() {
-        return "PRO.CUENTA";
+        return "proyecto.Cuenta";
     }
 
+    @Override
     public List<Cuenta> findAll() {
-
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstmt = null;
-        ResultSet rs = null;
-        List<Cuenta> lt = new ArrayList<>();
+        Connection conec = null;
+        PreparedStatement prstmnt = null;
+        ResultSet result = null;
+        List<Cuenta> lich = new ArrayList<>();
 
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_SELECT;
 
             System.out.println("Se ejecuto " + SQL);
-            prstmt = conex.prepareStatement(SQL);
-            rs = prstmt.executeQuery();
+            prstmnt = conec.prepareStatement(SQL);
+            result = prstmnt.executeQuery();
 
-            if (!rs.wasNull()) {
-                while (rs.next()) {
+            if (!result.wasNull()) {
+                while (result.next()) {
+                    
                     Cuenta cuen = new Cuenta();
-                    cuen.setNumeroDocumento(rs.getString(1));
-                    cuen.setTipoDocumento(rs.getString(2));
-                    cuen.setPrimerNombre(rs.getString(3));
-                    cuen.setSegundoNombre(rs.getString(4));
-                    cuen.setPrimerApellido(rs.getString(5));
-                    cuen.setSegundoApellido(rs.getString(6));
-                    cuen.setPerfil(rs.getString(7));
-                    cuen.setFoto(rs.getByte(8));
-                    lt.add(cuen);
+                    cuen.setNumeroDocumento(result.getString(1));
+                    cuen.setTipoDocumento(result.getString(2));
+                    cuen.setPrimerNombre(result.getString(3));
+                    cuen.setSegundoNombre(result.getString(4));
+                    cuen.setPrimerApellido(result.getString(5));
+                    cuen.setSegundoApellido(result.getString(6));
+                    cuen.setPerfil(result.getString(7));
+                    cuen.setFoto(result.getByte(8));
+                    lich.add(cuen);
                 }
             }
 
         } catch (Exception e) {
             System.out.println("Fallo el  FindAll: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
-            ResourceManager.closePreparedStatement(prstmt);
+            ResourceManager.closeResultSet(result);
+            ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
-        return lt;
+        return lich;
     }
 
-    
+    @Override
     public void insert(Cuenta dto) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prStmnt = null;
-        int rs;
+        Connection conec = null;
+        PreparedStatement prstmnt = null;
+        int result;
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_INSERT;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
-            
-            prStmnt = conex.prepareStatement(SQL);
-            prStmnt.setString(indice++, dto.getNumeroDocumento());
-            prStmnt.setString(indice++, dto.getTipoDocumento());
-            prStmnt.setString(indice++, dto.getPrimerNombre());
-            prStmnt.setString(indice++, dto.getSegundoNombre());
-            prStmnt.setString(indice++, dto.getPrimerApellido());
-            prStmnt.setString(indice++, dto.getSegundoApellido());
-            prStmnt.setString(indice++, dto.getPerfil());
-            prStmnt.setByte(indice++, dto.getFoto());
 
-            rs = prStmnt.executeUpdate();
+            prstmnt = conec.prepareStatement(SQL);
+            prstmnt.setString(indice++, dto.getNumeroDocumento());
+            prstmnt.setString(indice++, dto.getTipoDocumento());
+            prstmnt.setString(indice++, dto.getPrimerNombre());
+            prstmnt.setString(indice++, dto.getSegundoNombre());
+            prstmnt.setString(indice++, dto.getPrimerApellido());
+            prstmnt.setString(indice++, dto.getSegundoApellido());
+            prstmnt.setString(indice++, dto.getPerfil());
+            prstmnt.setByte(indice++, dto.getFoto());
+
+            result = prstmnt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("Fallo el Insert: " + e.getMessage());
         } finally {
-            ResourceManager.closePreparedStatement(prStmnt);
+            ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
 
     }
 
-    
+    @Override
     public void update(CuentaPk llaveDto, Cuenta dto) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+        Connection conec = null;
         PreparedStatement prstmnt = null;
-        int rs;
+        int result;
 
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_UPDATE;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
-            prstmnt = conex.prepareStatement(SQL);
+            prstmnt = conec.prepareStatement(SQL);
 
-           prstmnt = conex.prepareStatement(SQL);
+            prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, dto.getNumeroDocumento());
             prstmnt.setString(indice++, dto.getTipoDocumento());
             prstmnt.setString(indice++, dto.getPrimerNombre());
@@ -176,162 +179,171 @@ public class CuentaDAOImp {
             prstmnt.setString(indice++, llaveDto.getTipoDocumento());
             prstmnt.setString(indice++, llaveDto.getNumeroDocumento());
 
-            rs = prstmnt.executeUpdate();
+            result = prstmnt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("Error dentro del Update: " + e.getMessage());
         } finally {
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
 
     }
 
-    
-    public void updatePk(CuentaPk llaveVieja, CuentaPk llaveNueva) {
+    @Override
+    public void updatePk(CuentaPk viejo, CuentaPk nuevo) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+        Connection conec = null;
         PreparedStatement prstmnt = null;
-        int rs;
+        int result;
 
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-            
-            System.out.println("Se ejecuto " + SQL);
-            prstmnt = conex.prepareStatement(SQL);
-            prstmnt.setString(indice++, llaveNueva.getTipoDocumento());
-            prstmnt.setString(indice++, llaveNueva.getNumeroDocumento());
-            prstmnt.setString(indice++, llaveVieja.getTipoDocumento());
-            prstmnt.setString(indice++, llaveVieja.getNumeroDocumento());
 
-            rs = prstmnt.executeUpdate();
+            System.out.println("Se ejecuto " + SQL);
+            prstmnt = conec.prepareStatement(SQL);
+            prstmnt.setString(indice++, nuevo.getTipoDocumento());
+            prstmnt.setString(indice++, nuevo.getNumeroDocumento());
+            prstmnt.setString(indice++, viejo.getTipoDocumento());
+            prstmnt.setString(indice++, viejo.getNumeroDocumento());
+
+            result = prstmnt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("Error dentro del UpdatePK: " + e.getMessage());
         } finally {
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
 
     }
 
-    
+    @Override
     public void delete(CuentaPk dto) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+        Connection conec = null;
         PreparedStatement prstmnt = null;
-        int rs;
+        int result;
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_DELETE;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
-            prstmnt = conex.prepareStatement(SQL);
+            prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, dto.getTipoDocumento());
             prstmnt.setString(indice++, dto.getNumeroDocumento());
 
-            rs = prstmnt.executeUpdate();
+            result = prstmnt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("Error dentro del Delete: " + e.getMessage());
         } finally {
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
+
     }
 
-    
-    public Cuenta findByPk(CuentaPk dto) {
+    @Override
+    public List<Cuenta> findByPK(CuentaPk dto) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+        Connection conec = null;
         PreparedStatement prstmnt = null;
-        ResultSet rs = null;
-        Cuenta cuen = new Cuenta();
+        ResultSet result = null;
+        List<Cuenta> lich = new ArrayList<>();
 
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
-            final String SQL = SQL_SELECT;
+            final String SQL = SQL_SELECT + " where Tipo_Documento = ? AND Num_Documento = ?";
 
-            System.out.println("Se ejecuto " + SQL);
-            prstmnt = conex.prepareStatement(SQL);
-            rs = prstmnt.executeQuery();
+            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            prstmnt = conec.prepareStatement(SQL);
+            int index = 1;
+            prstmnt.setString(index++, dto.getTipoDocumento());
+            prstmnt.setString(index++, dto.getNumeroDocumento());
+            result = prstmnt.executeQuery();
 
-            if (!rs.wasNull()) {
-                while (rs.next()) {
-                    cuen.setNumeroDocumento(rs.getString(1));
-                    cuen.setTipoDocumento(rs.getString(2));
-                    cuen.setPrimerNombre(rs.getString(3));
-                    cuen.setSegundoNombre(rs.getString(4));
-                    cuen.setPrimerApellido(rs.getString(5));
-                    cuen.setSegundoApellido(rs.getString(6));
-                    cuen.setPerfil(rs.getString(7));
-                    cuen.setFoto(rs.getByte(8));
+            if (!result.wasNull()) {
+                while (result.next()) {
+                    Cuenta cuen = new Cuenta();
+                    cuen.setTipoDocumento(result.getString(1));
+                    cuen.setNumeroDocumento(result.getString(2));
+                    cuen.setPrimerNombre(result.getString(3));
+                    cuen.setSegundoNombre(result.getNString(4));
+                    cuen.setPrimerApellido(result.getNString(5));
+                    cuen.setSegundoApellido(result.getString(6));
+                    cuen.setPerfil(result.getString(7));
+                    cuen.setFoto(result.getByte(8));
+                   
+                    lich.add(cuen);
+
                 }
             }
 
         } catch (Exception e) {
             System.out.println("Error dentro del FindByPK: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
+            ResourceManager.closeResultSet(result);
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
-        return cuen;
+        return lich;
     }
 
-   
-    public int count() {
-        final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+
+    @Override
+        public int count() {
+                final boolean estaConectado = (conexion != null);
+        Connection conec = null;
         PreparedStatement prstmnt = null;
-        ResultSet rs = null;
+        ResultSet result = null;
         int rowsCount = 0;
 
         try {
             if (estaConectado) {
-                conex = conexion;
+                conec = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conec = ResourceManager.getConeccion();
             }
             final String SQL = SQL_SELECT_COUNT;
 
             System.out.println("Se ejecuto " + SQL);
-            prstmnt = conex.prepareStatement(SQL);
-            rs = prstmnt.executeQuery();
-            while (rs.next()) {                
-                rs.getInt(rowsCount);
+            prstmnt = conec.prepareStatement(SQL);
+            result = prstmnt.executeQuery();
+            while (result.next()) {                
+                result.getInt(rowsCount);
             }
             
 
         } catch (Exception e) {
             System.out.println("Error dentro del SelectCount: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
+            ResourceManager.closeResultSet(result);
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conec);
             }
         }
         return rowsCount;
@@ -340,7 +352,7 @@ public class CuentaDAOImp {
 
     
 
-}
-   
+    }
 
 
+    
