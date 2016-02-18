@@ -120,7 +120,7 @@ public class EquipoDAOImp {
             result = prstmnt.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println("Error dentro del Insert: " + e.getMessage());
+            System.out.println("Fallo el Insert: " + e.getMessage());
         } finally {
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
