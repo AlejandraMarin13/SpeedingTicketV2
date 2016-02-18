@@ -10,11 +10,11 @@ package edu.co.sena.modelo.dto;
  * @author Adrian
  */
 public class RegistroEquipo {
-    
+
     private int registroIdRegistro;
     private String propietarioEquipoIdEquipo;
-    private String propietarioNumeroDocumento;
-    private String propietarioTipoDocumento;
+    private String propietarioCuentaNumeroDocumento;
+    private String propietariocuentaTipoDocumento;
 
     public RegistroEquipo() {
     }
@@ -35,28 +35,31 @@ public class RegistroEquipo {
         this.propietarioEquipoIdEquipo = propietarioEquipoIdEquipo;
     }
 
-    public String getPropietarioNumeroDocumento() {
-        return propietarioNumeroDocumento;
+    public String getPropietarioCuentaNumeroDocumento() {
+        return propietarioCuentaNumeroDocumento;
     }
 
-    public void setPropietarioNumeroDocumento(String propietarioNumeroDocumento) {
-        this.propietarioNumeroDocumento = propietarioNumeroDocumento;
+    public void setPropietarioCuentaNumeroDocumento(String propietarioCuentaNumeroDocumento) {
+        this.propietarioCuentaNumeroDocumento = propietarioCuentaNumeroDocumento;
     }
 
-    public String getPropietarioTipoDocumento() {
-        return propietarioTipoDocumento;
+    public String getPropietariocuentaTipoDocumento() {
+        return propietariocuentaTipoDocumento;
     }
 
-    public void setPropietarioTipoDocumento(String propietarioTipoDocumento) {
-        this.propietarioTipoDocumento = propietarioTipoDocumento;
+    public void setPropietariocuentaTipoDocumento(String propietariocuentaTipoDocumento) {
+        this.propietariocuentaTipoDocumento = propietariocuentaTipoDocumento;
     }
 
     @Override
     public String toString() {
-        return "RegistroEquipo{" + "registroIdRegistro=" + registroIdRegistro 
-                + ", propietarioEquipoIdEquipo=" + propietarioEquipoIdEquipo 
-                + ", propietarioNumeroDocumento=" + propietarioNumeroDocumento 
-                + ", propietarioTipoDocumento=" + propietarioTipoDocumento + '}';
+        return "RegistroEquipo{" + "registroIdRegistro="
+                + registroIdRegistro + ", propietarioEquipoIdEquipo="
+                + propietarioEquipoIdEquipo
+                + ", propietarioCuentaNumeroDocumento="
+                + propietarioCuentaNumeroDocumento
+                + ", propietariocuentaTipoDocumento="
+                + propietariocuentaTipoDocumento + '}';
     }
-    
+
 }
