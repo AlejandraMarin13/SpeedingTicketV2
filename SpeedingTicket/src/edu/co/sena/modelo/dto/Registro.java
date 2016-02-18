@@ -6,7 +6,8 @@
 package edu.co.sena.modelo.dto;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 /**
  *
@@ -15,12 +16,10 @@ import java.util.Date;
 public class Registro {
 
     private int idRegistro;
-    private String usuarioNumeroDocumento;
-    private String usuarioTipoDocumento;
-    private Time horaEntrada;
-    private Time horaSalida;
-    private Date fechaEntrada;
-    private Date fechaSalida;
+    private String cuentaNumeroDocumento;
+    private String cuentaTipoDocumento;
+    private Timestamp fechaHoraEntrada;
+    private Timestamp fechaHoraSalida;
     private String motivoVisita;
     private String rol;
 
@@ -35,52 +34,36 @@ public class Registro {
         this.idRegistro = idRegistro;
     }
 
-    public String getUsuarioNumeroDocumento() {
-        return usuarioNumeroDocumento;
+    public String getCuentaNumeroDocumento() {
+        return cuentaNumeroDocumento;
     }
 
-    public void setUsuarioNumeroDocumento(String usuarioNumeroDocumento) {
-        this.usuarioNumeroDocumento = usuarioNumeroDocumento;
+    public void setCuentaNumeroDocumento(String cuentaNumeroDocumento) {
+        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
     }
 
-    public String getUsuarioTipoDocumento() {
-        return usuarioTipoDocumento;
+    public String getCuentaTipoDocumento() {
+        return cuentaTipoDocumento;
     }
 
-    public void setUsuarioTipoDocumento(String usuarioTipoDocumento) {
-        this.usuarioTipoDocumento = usuarioTipoDocumento;
+    public void setCuentaTipoDocumento(String cuentaTipoDocumento) {
+        this.cuentaTipoDocumento = cuentaTipoDocumento;
     }
 
-    public Time getHoraEntrada() {
-        return horaEntrada;
+    public Timestamp getFechaHoraEntrada() {
+        return fechaHoraEntrada;
     }
 
-    public void setHoraEntrada(Time horaEntrada) {
-        this.horaEntrada = horaEntrada;
+    public void setFechaHoraEntrada(Timestamp fechaHoraEntrada) {
+        this.fechaHoraEntrada = fechaHoraEntrada;
     }
 
-    public Time getHoraSalida() {
-        return horaSalida;
+    public Timestamp getFechaHoraSalida() {
+        return fechaHoraSalida;
     }
 
-    public void setHoraSalida(Time horaSalida) {
-        this.horaSalida = horaSalida;
-    }
-
-    public Date getFechaEntrada() {
-        return fechaEntrada;
-    }
-
-    public void setFechaEntrada(Date fechaEntrada) {
-        this.fechaEntrada = fechaEntrada;
-    }
-
-    public Date getFechaSalida() {
-        return fechaSalida;
-    }
-
-    public void setFechaSalida(Date fechaSalida) {
-        this.fechaSalida = fechaSalida;
+    public void setFechaHoraSalida(Timestamp fechaHoraSalida) {
+        this.fechaHoraSalida = fechaHoraSalida;
     }
 
     public String getMotivoVisita() {
@@ -102,12 +85,11 @@ public class Registro {
     @Override
     public String toString() {
         return "Registro{" + "idRegistro=" + idRegistro
-                + ", usuarioNumeroDocumento=" + usuarioNumeroDocumento
-                + ", usuarioTipoDocumento=" + usuarioTipoDocumento
-                + ", horaEntrada=" + horaEntrada + ", horaSalida=" + horaSalida
-                + ", fechaEntrada=" + fechaEntrada + ", fechaSalida="
-                + fechaSalida + ", motivoVisita=" + motivoVisita + ", rol="
-                + rol + '}';
+                + ", cuentaNumeroDocumento=" + cuentaNumeroDocumento
+                + ", cuentaTipoDocumento=" + cuentaTipoDocumento
+                + ", fechaHoraEntrada=" + fechaHoraEntrada
+                + ", fechaHoraSalida=" + fechaHoraSalida
+                + ", motivoVisita=" + motivoVisita + ", rol=" + rol + '}';
     }
 
 }
