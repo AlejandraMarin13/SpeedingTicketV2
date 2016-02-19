@@ -63,18 +63,24 @@ public class EquipoDAOImp implements EquipoDAO{
 
     @Override
     public List<Equipo> findAll() {
+        
+        //DETERMINAMOS LAS VARIABLES
                 final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         ResultSet result = null;
         List<Equipo> lt = new ArrayList<>();
 
+        
+        //SE REALIZA LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            
+            //SE MUESTRAN LOS ATRIBUTOS DE LA CLASE
             final String SQL = SQL_SELECT;
 
             JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
@@ -105,16 +111,23 @@ public class EquipoDAOImp implements EquipoDAO{
 
     @Override
     public void insert(Equipo equipoDTO) {
+        
+        //SE DECLARAN LAS VARIABLES
                final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
+        
+        //REALIZACION DE LA CONEXION
         try {
+            
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            
+            // SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_INSERT;
             int indice = 1;
             JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
@@ -136,17 +149,24 @@ public class EquipoDAOImp implements EquipoDAO{
     }
 
     public void update(EquipoPk llaveDto, Equipo dto) {
+        
+        // DETERMINACION DE LA VARIBLE
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
 
+        
+        //REALIZACION DE LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            
+           // SE ASOCIA CON LA BASE DE DATOS
+            
             final String SQL = SQL_UPDATE;
             int indice = 1;
             JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
@@ -154,7 +174,7 @@ public class EquipoDAOImp implements EquipoDAO{
 
             prstmnt.setString(indice++, dto.getMarca());
             prstmnt.setString(indice++, dto.getDescripcion());
-            prstmnt.setString(indice++, llaveDto.getIdEquipo());
+            prstmnt.setString(indice++, dto.getIdEquipo());
 
             result = prstmnt.executeUpdate();
 
@@ -172,16 +192,23 @@ public class EquipoDAOImp implements EquipoDAO{
 
     @Override
     public void update(Equipo equipoDTO) {
-               final boolean estaConectado = (conexion != null);
+           
+        
+        //SE DETERMINA LA VARIABLE
+        final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
+        
+        //PROCEDE HACER LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            
+            //SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_DELETE;
             int indice = 1;
             JOptionPane.showMessageDialog(null, "Se esta ejecutando " + SQL);
@@ -204,23 +231,28 @@ public class EquipoDAOImp implements EquipoDAO{
 
     @Override
     public void updatePK(EquipoPk nuevo, EquipoPk viejo) {
+        
+        //SE DETERMINA LA VARIABLE
                 final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
 
+        //SE REALIZA LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            
+            //SE ASOCIA CON LÑA BASE DE DATOS
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
             JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
-            prstmnt.setString(indice++, nuevo.getIdEquipo());
-            prstmnt.setString(indice++, viejo.getIdEquipo());
+            prstmnt.setString(indice++, nuevo.getRegistroIdEquipo());
+            prstmnt.setInt(indice++, viejo.getRegistroidRegistro());
 
             result = prstmnt.executeUpdate();
 

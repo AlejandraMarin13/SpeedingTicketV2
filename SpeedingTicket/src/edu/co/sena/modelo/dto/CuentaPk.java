@@ -11,15 +11,19 @@ import java.io.Serializable;
  *
  * @author PCOPEN
  */
-public class CuentaPk implements Serializable{
-   
+public class CuentaPk implements Serializable {
+
     private String numeroDocumento;
     private String tipoDocumento;
 
     public CuentaPk() {
     }
 
-    
+    public CuentaPk(String numeroDocumento, String tipoDocumento) {
+        this.numeroDocumento = numeroDocumento;
+        this.tipoDocumento = tipoDocumento;
+    }
+
     public String getNumeroDocumento() {
         return numeroDocumento;
     }
@@ -38,11 +42,8 @@ public class CuentaPk implements Serializable{
 
     @Override
     public String toString() {
-        return "CuentaPk{" + "numeroDocumento=" + numeroDocumento 
-                           + ", tipoDocumento=" + tipoDocumento + '}';
+        return "CuentaPk{" + "numeroDocumento=" + numeroDocumento
+                + ", tipoDocumento=" + tipoDocumento + '}';
     }
 
-    
-   
-    
 }

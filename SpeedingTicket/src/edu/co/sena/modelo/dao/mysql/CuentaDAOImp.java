@@ -26,36 +26,35 @@ public class CuentaDAOImp implements CuentaDAO {
     private final String SQL_SELECT = "SELECT * FROM " + getTableName() + "";
 
     private final String SQL_INSERT = "INSERT INTO " + getTableName() + "\n"
-            + "(NUMERO_DOCUMENTO,\n"
-            + "TIPO_DOCUMENTO,\n"
-            + "PRIMER_NOMBRE,\n"
-            + "SEGUNDO_NOMBRE\n"
-            + "PRIMER_APELLIDO\n"
-            + "SEGUNDO_APELLIDO\n"
-            + "PERFIL\n"
-            + "FOTO\n"
+            + "(numero_documento,\n"
+            + "tipo_documento,\n"
+            + "primer_nombre,\n"
+            + "segundo_nombre,\n"
+            + "primer_apellido,\n"
+            + "segundo_apellido,\n"
+            + "perfil,\n"
+            + "foto)\n"
             + "VALUES\n"
             + "(?,?,?,?,?,?,?,?)";
 
     private final String SQL_UPDATE = "UPDATE " + getTableName() + "\n"
             + "SET\n"
-            + "PRIMER_NOMBRE = ?,\n"
-            + "SEGUNDO_NOMBRE= ?,\n"
-            + "PRIMER_APELLIDO= ?,\n"
-            + "SEGUNDO_APELLIDO = ?,\n"
-            + "PERFIL = ?,\n"
-            + "FOTO = ?\n"
-            + "WHERE NUMERO_DOCUMENTO = ? "
-            + "AND TIPO_DOCUMENTO = ?;";
+            + "primer_nombre = ?,\n"
+            + "segundo_nombre = ?,\n"
+            + "primer_apellido = ?,\n"
+            + "segundo_apellido = ?,\n"
+            + "perfil = ?,\n"
+            + "foto = ?\n"
+            + "WHERE numero_documento = ? AND tipo_documento = ?;";
 
     private final String SQL_UPDATEPK = "UPDATE " + getTableName() + "\n"
             + "SET\n"
-            + "NUMERO_DOCUMENTO = ?,\n"
-            + "TIPO_DOCUMENTO= ?\n"
-            + "WHERE NUMERO_DOCUMENTO = ? "
-            + "AND TIPO_DOCUMENTO = ?;";
+            + "numero_documento = ?,\n"
+            + "tipo_documento = ?\n"
+            + "WHERE numero_documento = ? AND tipo_documento = ?;";
+
     private final String SQL_DELETE = "DELETE FROM " + getTableName() + "\n"
-            + "WHERE NUMERO_DOCUMENTO = ? and TIPO_DOCUMENTO = ?";
+            + "WHERE numero_documento = ? AND tipo_documento = ?;";
 
     private final String SQL_SELECT_COUNT = "SELECT count(*) FROM " + getTableName() + " AS COUNT";
 
@@ -65,6 +64,8 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public List<Cuenta> findAll() {
+
+// SE DECLARAN LAS VARIABLES
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
@@ -72,11 +73,14 @@ public class CuentaDAOImp implements CuentaDAO {
         List<Cuenta> lich = new ArrayList<>();
 
         try {
+            // AQUI SE HACE LA CONEXION
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+
+            // SE ASOCIA  CON LA BASE DE DATOS 
             final String SQL = SQL_SELECT;
 
             System.out.println("Se ejecuto " + SQL);
@@ -85,7 +89,7 @@ public class CuentaDAOImp implements CuentaDAO {
 
             if (!result.wasNull()) {
                 while (result.next()) {
-                    
+
                     Cuenta cuen = new Cuenta();
                     cuen.setNumeroDocumento(result.getString(1));
                     cuen.setTipoDocumento(result.getString(2));
@@ -113,6 +117,7 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public void insert(Cuenta dto) {
+        //  SE DECLARAN LAS VARIABLES 
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
@@ -123,6 +128,8 @@ public class CuentaDAOImp implements CuentaDAO {
             } else {
                 conec = ResourceManager.getConeccion();
             }
+
+            // SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_INSERT;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
@@ -152,32 +159,36 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public void update(CuentaPk llaveDto, Cuenta dto) {
+
+        //  SE DECLARAN LAS VARIABLES 
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
 
+        // AQUI SE CONSIGUE LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+
+            // SE ASOCIA CON LA BASE DE DATOS 
             final String SQL = SQL_UPDATE;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
 
-            prstmnt = conec.prepareStatement(SQL);
-            prstmnt.setString(indice++, dto.getNumeroDocumento());
-            prstmnt.setString(indice++, dto.getTipoDocumento());
             prstmnt.setString(indice++, dto.getPrimerNombre());
             prstmnt.setString(indice++, dto.getSegundoNombre());
             prstmnt.setString(indice++, dto.getPrimerApellido());
             prstmnt.setString(indice++, dto.getSegundoApellido());
+            prstmnt.setString(indice++, dto.getPerfil());
+            prstmnt.setByte(indice++, dto.getFoto());
 
-            prstmnt.setString(indice++, llaveDto.getTipoDocumento());
             prstmnt.setString(indice++, llaveDto.getNumeroDocumento());
+            prstmnt.setString(indice++, llaveDto.getTipoDocumento());
 
             result = prstmnt.executeUpdate();
 
@@ -194,11 +205,13 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public void updatePk(CuentaPk viejo, CuentaPk nuevo) {
+
+        // SE DECLARAN LAS VARIABLES 
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
-
+// SE CONSIGUE LA CONEXION 
         try {
             if (estaConectado) {
                 conec = conexion;
@@ -207,13 +220,13 @@ public class CuentaDAOImp implements CuentaDAO {
             }
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-
+//SE ASOCIA CON LA BASE DE DATOS 
             System.out.println("Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
-            prstmnt.setString(indice++, nuevo.getTipoDocumento());
             prstmnt.setString(indice++, nuevo.getNumeroDocumento());
-            prstmnt.setString(indice++, viejo.getTipoDocumento());
+            prstmnt.setString(indice++, nuevo.getTipoDocumento());
             prstmnt.setString(indice++, viejo.getNumeroDocumento());
+            prstmnt.setString(indice++, viejo.getTipoDocumento());
 
             result = prstmnt.executeUpdate();
 
@@ -230,22 +243,27 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public void delete(CuentaPk dto) {
+
+        // SE DECLARAN LAS VARIABLES 
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         int result;
+
+        // SE CONSIGUE LA CONEXION 
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+            // SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_DELETE;
             int indice = 1;
             System.out.println("Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
-            prstmnt.setString(indice++, dto.getTipoDocumento());
             prstmnt.setString(indice++, dto.getNumeroDocumento());
+            prstmnt.setString(indice++, dto.getTipoDocumento());
 
             result = prstmnt.executeUpdate();
 
@@ -262,39 +280,44 @@ public class CuentaDAOImp implements CuentaDAO {
 
     @Override
     public List<Cuenta> findByPK(CuentaPk dto) {
+
+        //SE DECLARAN LAS VARIABLES HA USAR
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         ResultSet result = null;
         List<Cuenta> lich = new ArrayList<>();
 
+        // SE REALIZA LA CONEXION 
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
-            final String SQL = SQL_SELECT + " where Tipo_Documento = ? AND Num_Documento = ?";
 
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            // GUIA DE LAS TABLAS DE BASE DE DATOS
+            final String SQL = SQL_SELECT + " where numero_documento = ? AND tipo_documento = ?";
+
+            System.out.println("Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
             int index = 1;
-            prstmnt.setString(index++, dto.getTipoDocumento());
             prstmnt.setString(index++, dto.getNumeroDocumento());
+            prstmnt.setString(index++, dto.getTipoDocumento());
             result = prstmnt.executeQuery();
 
             if (!result.wasNull()) {
                 while (result.next()) {
                     Cuenta cuen = new Cuenta();
-                    cuen.setTipoDocumento(result.getString(1));
-                    cuen.setNumeroDocumento(result.getString(2));
+                    cuen.setNumeroDocumento(result.getString(1));
+                    cuen.setTipoDocumento(result.getString(2));
                     cuen.setPrimerNombre(result.getString(3));
                     cuen.setSegundoNombre(result.getNString(4));
                     cuen.setPrimerApellido(result.getNString(5));
                     cuen.setSegundoApellido(result.getString(6));
                     cuen.setPerfil(result.getString(7));
                     cuen.setFoto(result.getByte(8));
-                   
+
                     lich.add(cuen);
 
                 }
@@ -312,30 +335,35 @@ public class CuentaDAOImp implements CuentaDAO {
         return lich;
     }
 
-
     @Override
-        public int count() {
-                final boolean estaConectado = (conexion != null);
+    public int count() {
+
+        //SE DETERMINA LA VARIABLE
+        final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
         ResultSet result = null;
-        int rowsCount = 0;
+        Integer rowsCount = 0;
 
+        //SE CONSIGUE LA CONEXION
         try {
             if (estaConectado) {
                 conec = conexion;
             } else {
                 conec = ResourceManager.getConeccion();
             }
+
+            //
             final String SQL = SQL_SELECT_COUNT;
 
             System.out.println("Se ejecuto " + SQL);
             prstmnt = conec.prepareStatement(SQL);
             result = prstmnt.executeQuery();
-            while (result.next()) {                
-                result.getInt(rowsCount);
+            if (!result.wasNull()) {
+                while (result.next()) {
+                    rowsCount = result.getInt(1);
+                }
             }
-            
 
         } catch (Exception e) {
             System.out.println("Error dentro del SelectCount: " + e.getMessage());
@@ -347,12 +375,7 @@ public class CuentaDAOImp implements CuentaDAO {
             }
         }
         return rowsCount;
-        
-    }
-
-    
 
     }
 
-
-    
+}

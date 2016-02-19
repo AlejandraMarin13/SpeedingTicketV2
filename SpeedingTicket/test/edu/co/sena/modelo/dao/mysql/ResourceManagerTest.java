@@ -14,7 +14,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -69,7 +68,7 @@ public class ResourceManagerTest {
         PreparedStatement prest = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM pro.cuenta WHERE Num_Documento = ?;";
+        String sql = "SELECT * FROM proyecto.cuenta WHERE numero_documento = ?;";
         prest = conection.prepareStatement(sql);
         prest.setString(1, "98935652145");
         rs = prest.executeQuery();

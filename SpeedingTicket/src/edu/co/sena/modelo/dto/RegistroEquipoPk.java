@@ -13,11 +13,20 @@ import java.io.Serializable;
  */
 public class RegistroEquipoPk implements Serializable {
 
+    private String registroIdRegistro;
     private String propietarioEquipoIdEquipo;
-     private String propietarioTipoDocumento;
+    private String propietarioTipoDocumento;
     private String propietarioCuentaNumeroDocumento;
 
     public RegistroEquipoPk() {
+    }
+
+    public String getRegistroIdRegistro() {
+        return registroIdRegistro;
+    }
+
+    public void setRegistroIdRegistro(String registroIdRegistro) {
+        this.registroIdRegistro = registroIdRegistro;
     }
 
     public String getPropietarioEquipoIdEquipo() {
@@ -46,10 +55,10 @@ public class RegistroEquipoPk implements Serializable {
 
     @Override
     public String toString() {
-        return "RegistroEquipoPk{" + "propietarioEquipoIdEquipo=" + propietarioEquipoIdEquipo 
-                + ", propietarioTipoDocumento=" + propietarioTipoDocumento 
+        return "RegistroEquipoPk{" + "registroIdRegistro=" + registroIdRegistro
+                + ", propietarioEquipoIdEquipo=" + propietarioEquipoIdEquipo
+                + ", propietarioTipoDocumento=" + propietarioTipoDocumento
                 + ", propietarioCuentaNumeroDocumento=" + propietarioCuentaNumeroDocumento + '}';
     }
-   
 
 }

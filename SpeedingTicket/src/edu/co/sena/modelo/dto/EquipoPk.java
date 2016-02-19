@@ -13,23 +13,38 @@ import java.io.Serializable;
  */
 public class EquipoPk implements Serializable{
     
-    private String idEquipo;
+     private String registroIdEquipo;
+     private int registroIdRegistro;
 
     public EquipoPk() {
+        
+   
     }
 
-    public String getIdEquipo() {
-        return idEquipo;
+    public String getRegistroIdEquipo() {
+        return registroIdEquipo;
     }
 
-    public void setIdEquipo(String idEquipo) {
-        this.idEquipo = idEquipo;
+    public void setRegistroIdEquipo(String registroIdEquipo) {
+        this.registroIdEquipo = registroIdEquipo;
+    }
+
+    public int getRegistroidRegistro() {
+        return registroIdRegistro;
+    }
+
+    public void setRegistroidRegistro(int registroidRegistro) {
+        this.registroIdRegistro = registroidRegistro;
     }
 
     @Override
     public String toString() {
-        return "EquipoPk{" + "idEquipo=" + idEquipo + '}';
+        return "EquipoPk{" + "registroIdEquipo=" + registroIdEquipo 
+                           + ", registroidRegistro=" + registroIdRegistro + '}';
     }
     
     
-}
+    
+    }
+
+    

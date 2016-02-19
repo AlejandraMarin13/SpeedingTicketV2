@@ -5,6 +5,8 @@
  */
 package edu.co.sena.dao;
 
+import edu.co.sena.modelo.dto.Cuenta;
+import edu.co.sena.modelo.dto.CuentaPk;
 import edu.co.sena.modelo.dto.Registro;
 import edu.co.sena.modelo.dto.RegistroPk;
 import java.util.List;
@@ -24,7 +26,7 @@ public interface RegistroDAO {
     public void updatePk(RegistroPk llaveVieja, RegistroPk llaveNueva);
 
     public void delete(RegistroPk dto);
-
+    
     public List<Registro> findByPK(RegistroPk dto);
 
     public int count();

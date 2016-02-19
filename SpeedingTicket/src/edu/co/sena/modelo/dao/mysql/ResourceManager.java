@@ -16,9 +16,9 @@ import java.sql.SQLException;
  *
  * @author PCOPEN
  */
-public class ResourceManager {
+public class ResourceManager { // de donde sale eso
   
-   private static String JDBC_URL = "jdbc:mysql://localhost:4306/pro";
+   private static String JDBC_URL = "jdbc:mysql://localhost:3306/proyecto";
     private static String JDBC_USER = "root";
     private static String JDBC_PASSWORD = "123456789";
 

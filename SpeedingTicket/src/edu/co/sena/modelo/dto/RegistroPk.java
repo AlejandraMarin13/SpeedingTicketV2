@@ -13,19 +13,25 @@ import java.io.Serializable;
  */
 public class RegistroPk implements Serializable {
 
-    private String idEqupo;
+    private String idRegistro;
     private String cuentaTipoDocumento;
-    private String cuentaNumeroDodumento;
+    private String cuentaNumeroDocumento;
 
     public RegistroPk() {
     }
 
-    public String getIdEqupo() {
-        return idEqupo;
+    public RegistroPk(String idRegistro, String cuentaTipoDocumento, String cuentaNumeroDocumento) {
+        this.idRegistro = idRegistro;
+        this.cuentaTipoDocumento = cuentaTipoDocumento;
+        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
     }
 
-    public void setIdEqupo(String idEqupo) {
-        this.idEqupo = idEqupo;
+    public String getIdRegistro() {
+        return idRegistro;
+    }
+
+    public void setIdRegistro(String idRegistro) {
+        this.idRegistro = idRegistro;
     }
 
     public String getCuentaTipoDocumento() {
@@ -36,19 +42,19 @@ public class RegistroPk implements Serializable {
         this.cuentaTipoDocumento = cuentaTipoDocumento;
     }
 
-    public String getCuentaNumeroDodumento() {
-        return cuentaNumeroDodumento;
+    public String getCuentaNumeroDocumento() {
+        return cuentaNumeroDocumento;
     }
 
-    public void setCuentaNumeroDodumento(String cuentaNumeroDodumento) {
-        this.cuentaNumeroDodumento = cuentaNumeroDodumento;
+    public void setCuentaNumeroDocumento(String cuentaNumeroDocumento) {
+        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
     }
 
     @Override
     public String toString() {
-        return "RegistroPk{" + "idEqupo=" + idEqupo
+        return "RegistroPk{" + "idEqupo=" + idRegistro
                 + ", cuentaTipoDocumento=" + cuentaTipoDocumento
-                + ", cuentaNumeroDodumento=" + cuentaNumeroDodumento + '}';
+                + ", cuentaNumeroDodumento=" + cuentaNumeroDocumento + '}';
     }
 
 }
