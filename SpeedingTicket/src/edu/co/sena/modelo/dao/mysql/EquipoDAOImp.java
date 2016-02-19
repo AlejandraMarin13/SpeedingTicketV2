@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 
 
 
@@ -83,7 +83,7 @@ public class EquipoDAOImp implements EquipoDAO{
             //SE MUESTRAN LOS ATRIBUTOS DE LA CLASE
             final String SQL = SQL_SELECT;
 
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             result = prstmnt.executeQuery();
 
@@ -130,7 +130,7 @@ public class EquipoDAOImp implements EquipoDAO{
             // SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_INSERT;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto" + SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, equipoDTO.getIdEquipo());
             prstmnt.setString(indice++, equipoDTO.getMarca());
@@ -169,7 +169,7 @@ public class EquipoDAOImp implements EquipoDAO{
             
             final String SQL = SQL_UPDATE;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
 
             prstmnt.setString(indice++, dto.getMarca());
@@ -211,7 +211,7 @@ public class EquipoDAOImp implements EquipoDAO{
             //SE ASOCIA CON LA BASE DE DATOS
             final String SQL = SQL_DELETE;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se esta ejecutando " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, equipoDTO.getIdEquipo());
 
@@ -249,7 +249,7 @@ public class EquipoDAOImp implements EquipoDAO{
             //SE ASOCIA CON LÑA BASE DE DATOS
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, nuevo.getRegistroIdEquipo());
             prstmnt.setInt(indice++, viejo.getRegistroidRegistro());

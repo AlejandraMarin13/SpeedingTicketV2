@@ -15,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -199,7 +199,7 @@ public class RegistroDAOImp implements RegistroDAO {
             }
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, nuevo.getCuentaNumeroDocumento());
             prstmnt.setString(indice++, nuevo.getCuentaTipoDocumento());
@@ -233,7 +233,7 @@ public class RegistroDAOImp implements RegistroDAO {
             }
             final String SQL = SQL_DELETE;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, dto.getCuentaNumeroDocumento());
             prstmnt.setString(indice++, dto.getCuentaTipoDocumento());

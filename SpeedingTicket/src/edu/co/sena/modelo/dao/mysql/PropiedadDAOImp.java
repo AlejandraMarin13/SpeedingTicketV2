@@ -58,7 +58,6 @@ public class PropiedadDAOImp implements PropiedadDAO {
         return "PRO.PROPIETARIO";
     }
 
-    @Override
     public List<Propiedad> findAll() {
 
         // DETEMINA LA VARIABLE

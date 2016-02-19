@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -120,7 +120,7 @@ public class RegistroEquipoDAOImp implements RegistroEquipoDAO  {
             }
             final String SQL = SQL_INSERT;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto"+ SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, registroEquipoDTO.getPropietarioEquipoIdEquipo());
             prstmnt.setString(indice++, registroEquipoDTO.getPropietarioCuentaNumeroDocumento());
@@ -197,7 +197,7 @@ public class RegistroEquipoDAOImp implements RegistroEquipoDAO  {
             }
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-            JOptionPane.showMessageDialog(null, "Se ejecuto " + SQL);
+            System.out.println("se ejecuto" +SQL);
             prstmnt = conec.prepareStatement(SQL);
             prstmnt.setString(indice++, nuevo.getRegistroIdRegistro());
             prstmnt.setString(indice++, nuevo.getPropietarioEquipoIdEquipo());
