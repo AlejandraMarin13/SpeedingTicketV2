@@ -7,7 +7,7 @@ package edu.co.sena.modelo.factory;
 
 import edu.co.sena.dao.CuentaDAO;
 import edu.co.sena.dao.EquipoDAO;
-import edu.co.sena.dao.PropiedadDAO;
+
 import edu.co.sena.modelo.dao.mysql.PropiedadDAOImp;
 import edu.co.sena.dao.RegistroDAO;
 import edu.co.sena.dao.RegistroEquipoDAO;
