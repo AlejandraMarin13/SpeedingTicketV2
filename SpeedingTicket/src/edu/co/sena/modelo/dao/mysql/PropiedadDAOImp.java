@@ -5,6 +5,7 @@
  */
 package edu.co.sena.modelo.dao.mysql;
 
+
 import edu.co.sena.dao.PropiedadDAO;
 import edu.co.sena.modelo.dto.Propiedad;
 import java.sql.Connection;
