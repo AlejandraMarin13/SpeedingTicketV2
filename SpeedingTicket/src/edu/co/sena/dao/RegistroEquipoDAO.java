@@ -21,5 +21,20 @@ public interface RegistroEquipoDAO {
 
     public void update(RegistroEquipo registroEquipoDTO);
 
-    public void updatePK(RegistroEquipoPk nuevo, RegistroEquipoPk viejo);
+    public void updatePk(RegistroEquipoPk viejoR,
+            RegistroEquipoPk nuevoIdEquipo,
+            RegistroEquipoPk viejoIdEquipo,
+            RegistroEquipoPk nuevoNumDoc,
+            RegistroEquipoPk viejoNumDoc,
+            RegistroEquipoPk nuevoTipoDoc,
+            RegistroEquipoPk viejoTipoDoc,
+            RegistroEquipoPk nuevoRegistro,
+            RegistroEquipoPk viejoRegistro);
+
+    public List<RegistroEquipo> findByPK(RegistroEquipoPk dto);
+
+    public void delete(RegistroEquipoPk dto);
+
+    public int count();
+
 }

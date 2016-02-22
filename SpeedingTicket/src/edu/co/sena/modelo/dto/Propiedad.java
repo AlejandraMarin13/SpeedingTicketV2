@@ -11,44 +11,43 @@ package edu.co.sena.modelo.dto;
  */
 public class Propiedad {
     
-    private String EquipoIdEquipo;
-    private String CuentaNumeroDocumento;
-    private String CuentaTipoDocumento;
+    private String equipoIdEquipo;
+    private String cuentaNumeroDocumento;
+    private String cuentaTipoDocumento;
 
     public Propiedad() {
     }
 
-    
     public String getEquipoIdEquipo() {
-        return EquipoIdEquipo;
+        return equipoIdEquipo;
     }
 
-    public void setEquipoIdEquipo(String EquipoIdEquipo) {
-        this.EquipoIdEquipo = EquipoIdEquipo;
+    public void setEquipoIdEquipo(String equipoIdEquipo) {
+        this.equipoIdEquipo = equipoIdEquipo;
     }
 
     public String getCuentaNumeroDocumento() {
-        return CuentaNumeroDocumento;
+        return cuentaNumeroDocumento;
     }
 
-    public void setCuentaNumeroDocumento(String CuentaNumeroDocumento) {
-        this.CuentaNumeroDocumento = CuentaNumeroDocumento;
+    public void setCuentaNumeroDocumento(String cuentaNumeroDocumento) {
+        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
     }
 
     public String getCuentaTipoDocumento() {
-        return CuentaTipoDocumento;
+        return cuentaTipoDocumento;
     }
 
-    public void setCuentaTipoDocumento(String CuentaTipoDocumento) {
-        this.CuentaTipoDocumento = CuentaTipoDocumento;
+    public void setCuentaTipoDocumento(String cuentaTipoDocumento) {
+        this.cuentaTipoDocumento = cuentaTipoDocumento;
     }
-    
-   
+
     @Override
     public String toString() {
-        return "Propiedad{" + "EquipoIdEquipo=" + EquipoIdEquipo 
-                + ", CuentaNumeroDocumento=" + CuentaNumeroDocumento 
-                + ", CuentaTipoDocumento=" + CuentaTipoDocumento + '}';
+        return "Propiedad{" + "equipoIdEquipo=" + equipoIdEquipo + ", cuentaNumeroDocumento=" + cuentaNumeroDocumento + ", cuentaTipoDocumento=" + cuentaTipoDocumento + '}';
     }
+
+    
+ 
  
 }

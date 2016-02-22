@@ -45,16 +45,14 @@ public class ResourceManager { // de donde sale eso
         }
 
     }
-    public static void closeResultSet(ResultSet rs) {
+   public static void close(ResultSet rs) {
         try {
             if (rs != null) {
                 rs.close();
             }
-        } catch (Exception e) {
-
-            System.err.println("Error al cerrar el resultset" + e.getMessage());
+        } catch (SQLException sqle) {
+            System.out.println("No se cerro ResultSet"+sqle.getMessage());
         }
-
     }
     public static void closePreparedStatement(PreparedStatement sentencia) {
         try {
@@ -68,8 +66,10 @@ public class ResourceManager { // de donde sale eso
 
     }
 
-}
+    
 
+
+}
    
    
 

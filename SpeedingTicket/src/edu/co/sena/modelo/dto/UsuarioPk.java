@@ -13,33 +13,28 @@ import java.io.Serializable;
  */
 public class UsuarioPk implements Serializable{
 
-    private String cuentaNumeroDocumento;
-    private String cuentaTipoDocumento;
-    
-
-    public String getCuentaNumeroDocumento() {
-        return cuentaNumeroDocumento;
-    }
+ private String login;
 
     public UsuarioPk() {
     }
 
-    public void setCuentaNumeroDocumento(String cuentaNumeroDocumento) {
-        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
+    public UsuarioPk(String login) {
+        this.login = login;
     }
 
-    public String getCuentaTipoDocumento() {
-        return cuentaTipoDocumento;
+   
+
+    public String getLogin() {
+        return login;
     }
 
-    public void setCuentaTipoDocumento(String cuentaTipoDocumento) {
-        this.cuentaTipoDocumento = cuentaTipoDocumento;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Override
     public String toString() {
-        return "UsuarioPk{" + "cuentaNumeroDocumento=" + cuentaNumeroDocumento
-                + ", cuentaTipoDocumento=" + cuentaTipoDocumento + '}';
+        return "UsuarioPk{" + "login=" + login + '}';
     }
-
+    
 }

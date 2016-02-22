@@ -5,12 +5,12 @@
  */
 package edu.co.sena.modelo.factory;
 
-import edu.co.sena.dao.CuentaDAO;
-import edu.co.sena.dao.EquipoDAO;
-import edu.co.sena.dao.PropiedadDAOImp;
-import edu.co.sena.dao.RegistroDAO;
-import edu.co.sena.dao.RegistroEquipoDAO;
-import edu.co.sena.dao.UsuarioDAO;
+import edu.co.sena.modelo.dao.mysql.CuentaDAOImp;
+import edu.co.sena.modelo.dao.mysql.EquipoDAOImp;
+import edu.co.sena.modelo.dao.mysql.PropiedadDAOImp;
+import edu.co.sena.modelo.dao.mysql.RegistroDAOImp;
+import edu.co.sena.modelo.dao.mysql.RegistroEquipoDAOImp;
+import edu.co.sena.modelo.dao.mysql.UsuarioDAOImpl;
 
 /**
  *
@@ -18,16 +18,11 @@ import edu.co.sena.dao.UsuarioDAO;
  */
 public interface DAOFactory {
 
-    public CuentaDAO creaCuenta();
-
-    public EquipoDAO creaEquipo();
-
-    public RegistroDAO creaRegistro();
-
-    public PropiedadDAO creaPropiedad();
-
-    public UsuarioDAO creaUsuario();
-
-    public RegistroEquipoDAO creaRegistroEquipo();
+    public CuentaDAOImp crearCuenta();
+    public EquipoDAOImp crearEquipo();
+    public PropiedadDAOImp crearPropietario();
+    public RegistroDAOImp crearRegistro();
+    public RegistroEquipoDAOImp crearRegistroEquipo();
+    public UsuarioDAOImpl crearUsuario();
 
 }

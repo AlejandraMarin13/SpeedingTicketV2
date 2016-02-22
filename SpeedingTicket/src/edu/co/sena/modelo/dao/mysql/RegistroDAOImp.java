@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author PCOPEN
@@ -52,7 +51,14 @@ public class RegistroDAOImp implements RegistroDAO {
             + "WHERE id_registro = ? AND Cuenta_numero_documento = ? AND Cuenta_tipo_documento = ?";
 
     private final String SQL_DELETE = "DELETE FROM " + getTableName() + "\n"
-            + "WHERE id_registro = ? AND Cuenta_numero_documento = ? AND Cuenta_tipo_documento = ?";
+            + "WHERE id_registro = ? "
+            + "AND Cuenta_numero_documento = ? "
+            + "AND Cuenta_tipo_documento = ?";
+
+    private final String SQL_SELECTPK = "SELECT * from " + getTableName()
+            + "WHERE id_registro = ? "
+            + "AND Cuenta_numero_documento = ?"
+            + " AND Cuenta_tipo_documento = ?";
 
     private final String SQL_SELECT_COUNT = "SELECT count(*) FROM " + getTableName() + "";
 
@@ -99,7 +105,7 @@ public class RegistroDAOImp implements RegistroDAO {
         } catch (Exception e) {
             System.out.println("Error dentro del FindAll: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(result);
+            ResourceManager.close(result);
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conec);
@@ -185,7 +191,9 @@ public class RegistroDAOImp implements RegistroDAO {
     }
 
     @Override
-    public void updatePk(RegistroPk viejo, RegistroPk nuevo) {
+    public void updatePk(RegistroPk llaveVieja, RegistroPk llaveNueva,
+            RegistroPk registroNuevo, RegistroPk registroViejo,
+            RegistroPk numNuevo, RegistroPk numViejo) {
         final boolean estaConectado = (conexion != null);
         Connection conec = null;
         PreparedStatement prstmnt = null;
@@ -199,13 +207,14 @@ public class RegistroDAOImp implements RegistroDAO {
             }
             final String SQL = SQL_UPDATEPK;
             int indice = 1;
-            System.out.println("se ejecuto"+ SQL);
+            System.out.println("se ejecuto" + SQL);
             prstmnt = conec.prepareStatement(SQL);
-            prstmnt.setString(indice++, nuevo.getCuentaNumeroDocumento());
-            prstmnt.setString(indice++, nuevo.getCuentaTipoDocumento());
-            prstmnt.setString(indice++, viejo.getIdRegistro());
-            prstmnt.setString(indice++, viejo.getCuentaNumeroDocumento());
-            prstmnt.setString(indice++, viejo.getCuentaTipoDocumento());
+            prstmnt.setString(indice++, registroNuevo.getIdRegistro());
+            prstmnt.setString(indice++, registroViejo.getIdRegistro());
+            prstmnt.setString(indice++, numNuevo.getCuentaNumeroDocumento());
+            prstmnt.setString(indice++, numViejo.getCuentaNumeroDocumento());
+            prstmnt.setString(indice++, llaveVieja.getCuentaTipoDocumento());
+            prstmnt.setString(indice++, llaveNueva.getCuentaTipoDocumento());
 
             resul = prstmnt.executeUpdate();
 
@@ -233,8 +242,9 @@ public class RegistroDAOImp implements RegistroDAO {
             }
             final String SQL = SQL_DELETE;
             int indice = 1;
-            System.out.println("se ejecuto"+ SQL);
+            System.out.println("se ejecuto" + SQL);
             prstmnt = conec.prepareStatement(SQL);
+            prstmnt.setString(indice++, dto.getIdRegistro());
             prstmnt.setString(indice++, dto.getCuentaNumeroDocumento());
             prstmnt.setString(indice++, dto.getCuentaTipoDocumento());
 
@@ -248,63 +258,6 @@ public class RegistroDAOImp implements RegistroDAO {
                 ResourceManager.closeConnection(conec);
             }
         }
-    }
-
-    @Override
-    public List<Registro> findByPK(RegistroPk dto) {
-
-        //SE DECLARAN LAS VARIABLES HA USAR
-        final boolean estaConectado = (conexion != null);
-        Connection conec = null;
-        PreparedStatement prstmnt = null;
-        ResultSet result = null;
-        List<Registro> lich = new ArrayList<>();
-
-        // SE REALIZA LA CONEXION 
-        try {
-            if (estaConectado) {
-                conec = conexion;
-            } else {
-                conec = ResourceManager.getConeccion();
-            }
-
-            // GUIA DE LAS TABLAS DE BASE DE DATOS
-            final String SQL = SQL_SELECT + " where id_registro = ? and where numero_documento = ? AND tipo_documento = ?";
-
-            System.out.println("Se ejecuto " + SQL);
-            prstmnt = conec.prepareStatement(SQL);
-            int index = 1;
-            prstmnt.setString(index++, dto.getIdRegistro());
-            prstmnt.setString(index++, dto.getCuentaNumeroDocumento());
-            prstmnt.setString(index++, dto.getCuentaTipoDocumento());
-            result = prstmnt.executeQuery();
-
-            if (!result.wasNull()) {
-                while (result.next()) {
-                    Registro regis = new Registro();
-                    regis.setIdRegistro(result.getInt(1));
-                    regis.setCuentaNumeroDocumento(result.getString(2));
-                    regis.setCuentaTipoDocumento(result.getString(3));
-                    regis.setFechaHoraEntrada(result.getTimestamp(4));
-                    regis.setFechaHoraSalida(result.getTimestamp(5));
-                    regis.setMotivoVisita(result.getString(6));
-                    regis.setRol(result.getString(7));
-
-                    lich.add(regis);
-
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error dentro del FindByPK: " + e.getMessage());
-        } finally {
-            ResourceManager.closeResultSet(result);
-            ResourceManager.closePreparedStatement(prstmnt);
-            if (!estaConectado) {
-                ResourceManager.closeConnection(conec);
-            }
-        }
-        return lich;
     }
 
     @Override
@@ -336,7 +289,7 @@ public class RegistroDAOImp implements RegistroDAO {
         } catch (Exception e) {
             System.out.println("Error dentro del FindAll: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
+            ResourceManager.close(rs);
             ResourceManager.closePreparedStatement(prstmt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conex);
@@ -344,4 +297,62 @@ public class RegistroDAOImp implements RegistroDAO {
         }
         return rowsCount;
     }
+
+    @Override
+    public List<Registro> findByPK(RegistroPk dto) {
+
+        final boolean estaConectado = (conexion != null);
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Registro> lt = new ArrayList<>();
+
+        try {
+            // obtener el la conexion 
+
+            if (estaConectado) {
+                conn = conexion;
+            } else {
+                conn = ResourceManager.getConeccion();
+            }
+
+            // construct the SQL statement
+            final String SQL = SQL_SELECTPK;
+
+            System.out.println("Se Ha Ejecutado " + SQL);
+            stmt = conn.prepareStatement(SQL);
+
+            int indice = 1;
+            stmt.setString(indice++, dto.getIdRegistro());
+            stmt.setString(indice++, dto.getCuentaNumeroDocumento());
+            stmt.setString(indice++, dto.getCuentaTipoDocumento());
+            rs = stmt.executeQuery();
+            if (!rs.wasNull()) {
+                while (rs.next()) {
+                    Registro r = new Registro();
+                    r.setIdRegistro(rs.getInt(1));
+                    r.setCuentaNumeroDocumento(rs.getString(2));
+                    r.setCuentaTipoDocumento(rs.getString(3));
+                    r.setFechaHoraEntrada(rs.getTimestamp(4));
+                    r.setFechaHoraSalida(rs.getTimestamp(5));
+                    r.setMotivoVisita(rs.getString(6));
+                    r.setRol(rs.getString(7));
+
+                    lt.add(r);
+
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("error en el findAll " + e.getMessage());
+        } finally {
+            ResourceManager.close(rs);
+            ResourceManager.closePreparedStatement(stmt);
+            if (!estaConectado) {
+                ResourceManager.closeConnection(conn);
+            }
+        }
+        return lt;
+    }
+
 }

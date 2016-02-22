@@ -8,7 +8,7 @@ package edu.co.sena.modelo.dao.mysql;
 import edu.co.sena.dao.CuentaDAO;
 import edu.co.sena.modelo.dto.Cuenta;
 import edu.co.sena.modelo.dto.CuentaPk;
-import edu.co.sena.modelo.factory.DAOAbstractFactory;
+
 import edu.co.sena.modelo.factory.DAOFactory;
 import edu.co.sena.modelo.factory.MySQLFactory;
 import java.util.List;
@@ -48,17 +48,21 @@ public class CuentaTest {
     //
     @Test
     public void FindAll() {
-        DAOFactory factoryDAO = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        CuentaDAO instance = factoryDAO.creaCuenta();
-
-        List<Cuenta> resu = instance.findAll();
-        for (Cuenta cuenta : resu) {
+   
+        System.out.println("findAll");
+        DAOFactory cuent = new MySQLFactory();
+        CuentaDAO instance = cuent.crearCuenta();
+        List<Cuenta> result = instance.findAll();
+        for (Cuenta cuenta : result) {
             System.out.println(cuenta.toString());
         }
+        System.out.println("____________________");
     }
+    
 
     @Test
     public void pruebaInsert() {
+        DAOFactory cuent = new MySQLFactory();
         Byte foto = new Byte("2");
         Cuenta cuentaDTO = new Cuenta();
         cuentaDTO.setNumeroDocumento("103025005544");
@@ -70,14 +74,15 @@ public class CuentaTest {
         cuentaDTO.setPerfil("APRENDIZ");
         cuentaDTO.setFoto(foto);
 
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
+         
 
-        CuentaDAO instance = cuent.creaCuenta();
+        CuentaDAO instance = cuent.crearCuenta();
         instance.insert(cuentaDTO);
     }
 
     @Test
     public void pruebaUpdate() {
+        DAOFactory cuent = new MySQLFactory();
         Byte foto = new Byte("3");
         CuentaPk cuentaVieja = new CuentaPk("103025005544", "CEDULA");
         Cuenta cuentaNueva = new Cuenta();
@@ -88,35 +93,37 @@ public class CuentaTest {
         cuentaNueva.setPerfil("APRENDIZ");
         cuentaNueva.setFoto(foto);
 
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
+        
 
-        CuentaDAO instance = cuent.creaCuenta();
+        CuentaDAO instance = cuent.crearCuenta();
         instance.update(cuentaVieja, cuentaNueva);
     }
 
     @Test
     public void pruebaUpdatePK() {
+        DAOFactory cuent = new MySQLFactory();
         CuentaPk cuentaVieja = new CuentaPk("103025005544", "CEDULA");
         CuentaPk cuentaNueva = new CuentaPk("545645", "CC");
 
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        CuentaDAO instance = cuent.creaCuenta();
+        
+        CuentaDAO instance = cuent.crearCuenta();
         instance.updatePk(cuentaVieja, cuentaNueva);
     }
 
     @Test
     public void pruebaDelete() {
+        DAOFactory cuent = new MySQLFactory();
         CuentaPk cuenta = new CuentaPk("545645", "CC");
 
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        CuentaDAO instance = cuent.creaCuenta();
+        
+        CuentaDAO instance = cuent.crearCuenta();
         instance.delete(cuenta);
     }
 
     @Test
     public void findByPK() {
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        CuentaDAO instance = cuent.creaCuenta();
+        DAOFactory cuent = new MySQLFactory();
+        CuentaDAO instance = cuent.crearCuenta();
         CuentaPk cuenta = new CuentaPk("1016081489", "TI");
 
         List<Cuenta> resultado = instance.findByPK(cuenta);
@@ -129,8 +136,8 @@ public class CuentaTest {
 
     @Test
     public void testCount() {
-        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        CuentaDAO instance = cuent.creaCuenta();
+        DAOFactory cuent = new MySQLFactory();
+        CuentaDAO instance = cuent.crearCuenta();
 
         System.out.println(instance.count());
 

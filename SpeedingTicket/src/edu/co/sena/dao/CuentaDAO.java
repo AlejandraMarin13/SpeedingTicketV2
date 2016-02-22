@@ -23,7 +23,7 @@ public interface CuentaDAO {
 
     public void updatePk(CuentaPk viejo, CuentaPk nuevo);
 
-    public void delete(CuentaPk dot);
+    public void delete(CuentaPk dto);
 
     public List<Cuenta> findByPK(CuentaPk dto);
 

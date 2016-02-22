@@ -11,6 +11,7 @@ package edu.co.sena.modelo.dto;
  */
 public class Usuario {
     
+    private String login;
     private String correo;
     private String contraseña;
     private String cuentaNumeroDocumento;
@@ -18,6 +19,14 @@ public class Usuario {
     private String rol;
 
     public Usuario() {
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getCorreo() {
@@ -62,12 +71,21 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "correo=" + correo
-                + ", contraseña=" + contraseña 
+        return "Usuario{" + "login=" + login 
+                + ", correo=" + correo 
+                + ", contrase\u00f1a=" + contraseña 
                 + ", cuentaNumeroDocumento=" + cuentaNumeroDocumento 
                 + ", cuentaTipoDocumento=" + cuentaTipoDocumento 
                 + ", rol=" + rol + '}';
     }
+
+    
+    
+  
+
+    
+ 
+    
     
     
 

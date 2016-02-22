@@ -80,7 +80,7 @@ public class ResourceManagerTest {
             }
         }
 
-        ResourceManager.closeResultSet(rs);
+        ResourceManager.close(rs);
         ResourceManager.closePreparedStatement(prest);
         ResourceManager.closeConnection(conection);
     }

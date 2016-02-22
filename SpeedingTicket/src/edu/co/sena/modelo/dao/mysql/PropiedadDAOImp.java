@@ -7,7 +7,6 @@ package edu.co.sena.modelo.dao.mysql;
 
 import edu.co.sena.dao.PropiedadDAO;
 import edu.co.sena.modelo.dto.Propiedad;
-import edu.co.sena.modelo.dto.PropiedadPk;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,22 +39,18 @@ public class PropiedadDAOImp implements PropiedadDAO {
             + "AND Equipo_Id_Equipo = ?;"
             + "AND Cuenta_Num_Documento = ? ";
 
-    private final String SQL_UPDATEPK = "UPDATE" + getTableName() + "\n"
-            + "SET\n"
-            + "Equipo_Id_Equipo = ?\n"
-            + "Cuenta_Tipo_Documento = ?,\n"
-            + "Cuenta_Num_Documento = ?,\n"
-            + "WHERE Cuenta_Tipo_Documento = ? "
-            + "AND Equipo_Id_Equipo = ?;"
-            + "AND Cuenta_Num_Documento = ? ";
     private final String SQL_DELETE = "DELETE FROM" + getTableName() + "\n"
             + "WHERE Equipo_Codigo_Barras = ?"
             + "AND Cuenta_Num_Documento = ? "
             + "AND Cuenta_Tipo_Documento = ?";
     private final String SQL_SELECT_COUNT = "SELECT count(*) FROM " + getTableName() + " AS COUNT";
+    private final String SQL_SELECTPK = "SELECT * FROM " + getTableName()
+            + " where EQUIPO_ID_EQUIPO = ?"
+            + " and CUENTA_NUMERO_DOCUMENTO = ?"
+            + " and CUENTA_TIPO_DOCUMENTO = ?;";
 
     public String getTableName() {
-        return "PRO.PROPIETARIO";
+        return "proyecto.Propiedad";
     }
 
     public List<Propiedad> findAll() {
@@ -96,7 +91,7 @@ public class PropiedadDAOImp implements PropiedadDAO {
         } catch (Exception e) {
             System.out.println("Error dentro del FindAll: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
+            ResourceManager.close(rs);
             ResourceManager.closePreparedStatement(prstmt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conex);
@@ -143,7 +138,6 @@ public class PropiedadDAOImp implements PropiedadDAO {
         }
     }
 
-    @Override
     public void update(Propiedad dto) {
 
         //SE DETERMINA UNA VARIABLE
@@ -182,42 +176,6 @@ public class PropiedadDAOImp implements PropiedadDAO {
         }
     }
 
-    @Override
-    public void updatePk(PropiedadPk llaveVieja, PropiedadPk llaveNueva) {
-
-        //SDE DETERMINA LA VARIABLE
-        final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstmt = null;
-        int rs;
-// SE REALIZA LA CONEXION
-        try {
-            if (estaConectado) {
-                conex = conexion;
-            } else {
-                conex = ResourceManager.getConeccion();
-            }
-            final String SQL = SQL_UPDATEPK;
-            int indice = 1;
-            System.out.println("Se ejecuto " + SQL);
-            prstmt = conex.prepareStatement(SQL);
-            prstmt.setString(indice++, llaveVieja.getEquipoIdEquipo());
-            prstmt.setString(indice++, llaveNueva.getCuentaTipoDocumento());
-            prstmt.setString(indice++, llaveNueva.getCuentaNumeroDocumento());
-
-            rs = prstmt.executeUpdate();
-
-        } catch (Exception e) {
-            System.out.println("Error dentro del UpdatePK: " + e.getMessage());
-        } finally {
-            ResourceManager.closePreparedStatement(prstmt);
-            if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
-            }
-        }
-    }
-
-    @Override
     public void delete(Propiedad dto) {
         final boolean estaConectado = (conexion != null);
         Connection conex = null;
@@ -277,14 +235,14 @@ public class PropiedadDAOImp implements PropiedadDAO {
             if (!rs.wasNull()) {
                 while (rs.next()) {
                     Propiedad propiedad = new Propiedad();
-                   
+
                     i++;
                 }
             }
         } catch (Exception e) {
             System.out.println("Error dentro del FindAll: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(rs);
+            ResourceManager.close(rs);
             ResourceManager.closePreparedStatement(prstmt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conex);
@@ -293,4 +251,98 @@ public class PropiedadDAOImp implements PropiedadDAO {
         return 1;
     }
 
-}
+   
+
+    @Override
+    public List<Propiedad> findByPK(Propiedad dto) {
+        final boolean estaConectado = (conexion != null);
+        Connection conex = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Propiedad> lt = new ArrayList<>();
+
+        try {
+            // obtener el la conexion 
+
+            if (estaConectado) {
+                conex = conexion;
+            } else {
+                conex= ResourceManager.getConeccion();
+            }
+
+            // construct the SQL statement
+            final String SQL = SQL_SELECTPK;
+
+            System.out.println("Se Ha Ejecutado " + SQL);
+            stmt = conex.prepareStatement(SQL);
+
+            int indice = 1;
+            stmt.setString(indice++, dto.getEquipoIdEquipo());
+            // estos van aca
+            stmt.setString(indice++, dto.getCuentaNumeroDocumento());
+            stmt.setString(indice++, dto.getCuentaTipoDocumento());
+
+            // _______
+            rs = stmt.executeQuery();
+            if (!rs.wasNull()) {
+                while (rs.next()) {
+                    Propiedad p = new Propiedad();
+                    p.setEquipoIdEquipo(rs.getString(1));
+                    p.setCuentaNumeroDocumento(rs.getString(2));
+                    p.setCuentaTipoDocumento(rs.getString(3));
+                    lt.add(p);
+
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("error en el findAll " + e.getMessage());
+        } finally {
+            ResourceManager.close(rs);
+            ResourceManager.closePreparedStatement(stmt);
+            if (!estaConectado) {
+                ResourceManager.closeConnection(conex);
+            }
+        }
+        return lt;
+
+    }
+
+    
+     @Override
+    public void update(Propiedad llaveDto, Propiedad dto) {
+        final boolean estaConectado = (conexion != null);
+        Connection conex = null;
+        PreparedStatement prstmnt = null;
+        int result;
+
+        //PROCEDE HACER LA CONEXION
+        try {
+            if (estaConectado) {
+                conex = conexion;
+            } else {
+                conex = ResourceManager.getConeccion();
+            }
+
+            //SE ASOCIA CON LA BASE DE DATOS
+            final String SQL = SQL_DELETE;
+            int indice = 1;
+            System.out.println("se ejecuto" + SQL);
+            prstmnt = conex.prepareStatement(SQL);
+            prstmnt.setString(indice++, dto.getCuentaNumeroDocumento());
+            prstmnt.setString(indice++, dto.getEquipoIdEquipo());
+            prstmnt.setString(indice++, dto.getCuentaTipoDocumento());
+
+            result = prstmnt.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("Fallo el Delete: " + e.getMessage());
+        } finally {
+            ResourceManager.closePreparedStatement(prstmnt);
+            if (!estaConectado) {
+                ResourceManager.closeConnection(conex);
+            }
+        }
+    }
+    }
+

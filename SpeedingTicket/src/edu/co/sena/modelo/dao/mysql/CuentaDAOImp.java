@@ -23,7 +23,7 @@ public class CuentaDAOImp implements CuentaDAO {
 
     private Connection conexion;
 
-    private final String SQL_SELECT = "SELECT * FROM " + getTableName() + "";
+    private final  String SQL_SELECT ="SELECT * FROM " + getTableName() + "";
 
     private final String SQL_INSERT = "INSERT INTO " + getTableName() + "\n"
             + "(numero_documento,\n"
@@ -58,62 +58,61 @@ public class CuentaDAOImp implements CuentaDAO {
 
     private final String SQL_SELECT_COUNT = "SELECT count(*) FROM " + getTableName() + " AS COUNT";
 
-    public String getTableName() {
-        return "proyecto.Cuenta";
-    }
+    
 
     @Override
     public List<Cuenta> findAll() {
 
 // SE DECLARAN LAS VARIABLES
         final boolean estaConectado = (conexion != null);
-        Connection conec = null;
-        PreparedStatement prstmnt = null;
-        ResultSet result = null;
-        List<Cuenta> lich = new ArrayList<>();
+        Connection conex = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Cuenta> lt = new ArrayList<>();
 
         try {
-            // AQUI SE HACE LA CONEXION
+            // obtener el la conexion 
+
             if (estaConectado) {
-                conec = conexion;
+                conex = conexion;
             } else {
-                conec = ResourceManager.getConeccion();
+                conex= ResourceManager.getConeccion();
             }
 
-            // SE ASOCIA  CON LA BASE DE DATOS 
+            // construct the SQL statement
             final String SQL = SQL_SELECT;
 
-            System.out.println("Se ejecuto " + SQL);
-            prstmnt = conec.prepareStatement(SQL);
-            result = prstmnt.executeQuery();
+            System.out.println("Se Ha Ejecutado " + SQL);
+            stmt = conex.prepareStatement(SQL);
+            rs = stmt.executeQuery();
 
-            if (!result.wasNull()) {
-                while (result.next()) {
-
-                    Cuenta cuen = new Cuenta();
-                    cuen.setNumeroDocumento(result.getString(1));
-                    cuen.setTipoDocumento(result.getString(2));
-                    cuen.setPrimerNombre(result.getString(3));
-                    cuen.setSegundoNombre(result.getString(4));
-                    cuen.setPrimerApellido(result.getString(5));
-                    cuen.setSegundoApellido(result.getString(6));
-                    cuen.setPerfil(result.getString(7));
-                    cuen.setFoto(result.getByte(8));
-                    lich.add(cuen);
+            if (!rs.wasNull()) {
+                while (rs.next()) {
+                    Cuenta c = new Cuenta();
+                    c.setNumeroDocumento(rs.getString(1));
+                    c.setTipoDocumento(rs.getString(2));                           
+                    c.setPrimerNombre(rs.getString(3));
+                    c.setSegundoNombre(rs.getString(4));
+                    c.setPrimerApellido(rs.getString(5));
+                    c.setSegundoApellido(rs.getString(6));
+                    c.setPerfil(rs.getString(7));
+                    c.setFoto(rs.getByte(8));
+                   lt.add(c);
                 }
-            }
+              }
 
         } catch (Exception e) {
-            System.out.println("Fallo el  FindAll: " + e.getMessage());
+            System.out.println("error en el findAll " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(result);
-            ResourceManager.closePreparedStatement(prstmnt);
+            ResourceManager.close(rs);
+            ResourceManager.closePreparedStatement(stmt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conec);
+                ResourceManager.closeConnection(conex);
             }
         }
-        return lich;
+        return lt;
     }
+
 
     @Override
     public void insert(Cuenta dto) {
@@ -326,7 +325,7 @@ public class CuentaDAOImp implements CuentaDAO {
         } catch (Exception e) {
             System.out.println("Error dentro del FindByPK: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(result);
+            ResourceManager.close(result);
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conec);
@@ -368,7 +367,7 @@ public class CuentaDAOImp implements CuentaDAO {
         } catch (Exception e) {
             System.out.println("Error dentro del SelectCount: " + e.getMessage());
         } finally {
-            ResourceManager.closeResultSet(result);
+            ResourceManager.close(result);
             ResourceManager.closePreparedStatement(prstmnt);
             if (!estaConectado) {
                 ResourceManager.closeConnection(conec);
@@ -377,5 +376,7 @@ public class CuentaDAOImp implements CuentaDAO {
         return rowsCount;
 
     }
-
+   public String getTableName() {
+        return "proyecto.cuenta";
+    }
 }

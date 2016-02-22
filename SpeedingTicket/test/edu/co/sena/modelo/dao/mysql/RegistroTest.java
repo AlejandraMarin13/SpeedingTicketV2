@@ -9,7 +9,7 @@ import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import edu.co.sena.dao.RegistroDAO;
 import edu.co.sena.modelo.dto.Registro;
 import edu.co.sena.modelo.dto.RegistroPk;
-import edu.co.sena.modelo.factory.DAOAbstractFactory;
+
 import edu.co.sena.modelo.factory.DAOFactory;
 import edu.co.sena.modelo.factory.MySQLFactory;
 import java.sql.Timestamp;
@@ -52,17 +52,19 @@ public class RegistroTest {
     //
     @Test
     public void FindAll() {
-        DAOFactory factoryDAO = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-        RegistroDAO instance = factoryDAO.creaRegistro();
-
-        List<Registro> resu = instance.findAll();
-        for (Registro registro : resu) {
+        System.out.println("findAll");
+        DAOFactory cuent = new MySQLFactory();
+        RegistroDAO instance = cuent.crearRegistro();
+        List<Registro> result = instance.findAll();
+        for (Registro registro : result) {
             System.out.println(registro.toString());
         }
+        System.out.println("____________________");
     }
 
     @Test
     public void pruebaInsert() {
+        DAOFactory regis = new MySQLFactory();
         Registro registroDTO = new Registro();
         Calendar calendario = Calendar.getInstance();
         Timestamp times = new Timestamp(calendario.getTime().getTime());
@@ -74,14 +76,15 @@ public class RegistroTest {
         registroDTO.setRol("Aprendiz");
         registroDTO.setMotivoVisita("No se");
 
-        DAOFactory regis = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
+        
 
-        RegistroDAO instance = regis.creaRegistro();
+        RegistroDAO instance = regis.crearRegistro();
         instance.insert(registroDTO);
     }
 
     @Test
     public void pruebaUpdate() {
+        DAOFactory regis = new MySQLFactory();
         RegistroPk registroViejo = new RegistroPk("21", "103025005544", "CEDULA");
         Registro registroNuevo = new Registro();
         Calendar calendario = Calendar.getInstance();
@@ -91,51 +94,53 @@ public class RegistroTest {
        registroNuevo.setMotivoVisita("Tampoco se");
        registroNuevo.setRol("aprendiz");
 
-        DAOFactory regis = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
+        
 
-        RegistroDAO instance = regis.creaRegistro();
+        RegistroDAO instance = regis.crearRegistro();
         instance.update(registroViejo, registroNuevo);
     }
-//
-//    @Test
-//    public void pruebaUpdatePK() {
-//        CuentaPk cuentaVieja = new CuentaPk("103025005544", "CEDULA");
-//        CuentaPk cuentaNueva = new CuentaPk("545645", "CC");
-//
-//        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-//        CuentaDAO instance = cuent.creaCuenta();
-//        instance.updatePk(cuentaVieja, cuentaNueva);
-//    }
-//
-//    @Test
-//    public void pruebaDelete() {
-//        CuentaPk cuenta = new CuentaPk("545645", "CC");
-//
-//        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-//        CuentaDAO instance = cuent.creaCuenta();
-//        instance.delete(cuenta);
-//    }
-//
-//    @Test
-//    public void findByPK() {
-//        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-//        CuentaDAO instance = cuent.creaCuenta();
-//        CuentaPk cuenta = new CuentaPk("1016081489", "TI");
-//
-//        List<Cuenta> resultado = instance.findByPK(cuenta);
-//
-//        for (Cuenta resultado1 : resultado) {
-//            System.out.println(resultado1.toString());
-//
-//        }
-//    }
-//
-//    @Test
-//    public void testCount() {
-//        DAOFactory cuent = MySQLFactory.getDAOFactory(DAOAbstractFactory.MYSQL_FACTORY);
-//        CuentaDAO instance = cuent.creaCuenta();
-//
-//        System.out.println(instance.count());
-//
-//    }
+
+    @Test
+    public void pruebaUpdatePK() {
+        DAOFactory regis = new MySQLFactory();
+        RegistroPk registroViejo = new RegistroPk("15","1016081489", "TI");
+        RegistroPk registroNuevo = new RegistroPk("21","97080917191", "TI");
+
+       
+        RegistroDAO instance = regis.crearRegistro();
+        instance.updatePk(registroViejo, registroNuevo, registroNuevo
+                , registroViejo, registroNuevo, registroViejo);
+    }
+
+    @Test
+    public void pruebaDelete() {
+        DAOFactory regis = new MySQLFactory();
+        RegistroPk registro = new RegistroPk("17","98050752453", "TI");
+
+        
+        RegistroDAO instance = regis.crearRegistro();
+        instance.delete(registro);
+    }
+
+    @Test
+    public void findByPK() {
+        System.out.println("findAllPk ");
+        DAOFactory f = new MySQLFactory();
+        RegistroDAO instance = f.crearRegistro();
+        RegistroPk llaves = new RegistroPk("12","TI", "98040962328");
+        List<Registro> result = instance.findByPK(llaves);
+        for (Registro registro : result) {
+            System.out.println(registro.toString());
+        }
+        System.out.println("____________________");
+    }
+    
+    @Test
+    public void testCount() {
+        DAOFactory regis = new MySQLFactory();
+        RegistroDAO instance = regis.crearRegistro();
+
+        System.out.println(instance.count());
+
+    }
 }

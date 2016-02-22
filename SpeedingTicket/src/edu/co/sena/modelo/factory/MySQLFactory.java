@@ -7,7 +7,8 @@ package edu.co.sena.modelo.factory;
 
 import edu.co.sena.dao.CuentaDAO;
 import edu.co.sena.dao.EquipoDAO;
-import edu.co.sena.dao.PropiedadDAOImp;
+import edu.co.sena.dao.PropiedadDAO;
+import edu.co.sena.modelo.dao.mysql.PropiedadDAOImp;
 import edu.co.sena.dao.RegistroDAO;
 import edu.co.sena.dao.RegistroEquipoDAO;
 import edu.co.sena.dao.UsuarioDAO;
@@ -22,35 +23,36 @@ import edu.co.sena.modelo.dao.mysql.UsuarioDAOImpl;
  *
  * @author PCOPEN
  */
-public class MySQLFactory  extends DAOAbstractFactory {
-
+public class MySQLFactory  implements DAOFactory {
+  
     @Override
-    public CuentaDAO creaCuenta() {
-       return new CuentaDAOImp();
+    public CuentaDAOImp crearCuenta() {
+        return new CuentaDAOImp();
     }
 
     @Override
-    public EquipoDAO creaEquipo() {
-       return new EquipoDAOImp();
+    public EquipoDAOImp crearEquipo() {
+        return new EquipoDAOImp();
     }
 
     @Override
-    public RegistroDAO creaRegistro() {
+    public PropiedadDAOImp crearPropietario() {
+        return new PropiedadDAOImp();
+    }
+
+    @Override
+    public RegistroDAOImp crearRegistro() {
         return new RegistroDAOImp();
     }
 
     @Override
-    public PropiedadDAO creaPropiedad() {
-      return new PropiedadDAOImp();
+    public RegistroEquipoDAOImp crearRegistroEquipo() {
+        return new RegistroEquipoDAOImp();
     }
-    @Override
-    public UsuarioDAO creaUsuario() {
+   @Override
+    public UsuarioDAOImpl crearUsuario() {
         return new UsuarioDAOImpl();
-         }
-
-    @Override
-    public RegistroEquipoDAO creaRegistroEquipo() {
-      return new RegistroEquipoDAOImp();
     }
+
     
 }

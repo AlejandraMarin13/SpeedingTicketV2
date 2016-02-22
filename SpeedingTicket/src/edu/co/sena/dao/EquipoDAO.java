@@ -5,6 +5,7 @@
  */
 package edu.co.sena.dao;
 
+
 import edu.co.sena.modelo.dto.Equipo;
 import edu.co.sena.modelo.dto.EquipoPk;
 import java.util.List;
@@ -22,8 +23,10 @@ public interface EquipoDAO {
     public abstract void insert(Equipo equipoDTO);
 
     public abstract void update(Equipo equipoDTO);
-
+    public void delete(EquipoPk dto);
     public void updatePK(EquipoPk nuevo, EquipoPk viejo);
+    public List<Equipo> findByPK(EquipoPk dto);
+    public int count();
 }
  
 

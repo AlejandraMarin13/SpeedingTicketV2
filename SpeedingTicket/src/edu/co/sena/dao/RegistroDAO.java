@@ -23,7 +23,9 @@ public interface RegistroDAO {
 
     public void update(RegistroPk llaveDto, Registro dto);
 
-    public void updatePk(RegistroPk llaveVieja, RegistroPk llaveNueva);
+    public void updatePk(RegistroPk llaveVieja, RegistroPk llaveNueva ,
+            RegistroPk registroNuevo , RegistroPk registroViejo ,
+            RegistroPk numNuevo , RegistroPk numViejo );
 
     public void delete(RegistroPk dto);
     
