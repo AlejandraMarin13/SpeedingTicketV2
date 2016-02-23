@@ -5,6 +5,8 @@
  */
 package edu.co.sena.modelo.dto;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Adrian
@@ -15,6 +17,8 @@ public class RegistroEquipo {
     private String propietarioEquipoIdEquipo;
     private String propietarioCuentaNumeroDocumento;
     private String propietariocuentaTipoDocumento;
+    private Timestamp fechaSalida;
+    private Timestamp fechaEntrada;
 
     public RegistroEquipo() {
     }
@@ -51,6 +55,22 @@ public class RegistroEquipo {
         this.propietariocuentaTipoDocumento = propietariocuentaTipoDocumento;
     }
 
+    public Timestamp getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(Timestamp fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public Timestamp getFechaEntrada() {
+        return fechaEntrada;
+    }
+
+    public void setFechaEntrada(Timestamp fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+    }
+
     @Override
     public String toString() {
         return "RegistroEquipo{" + "registroIdRegistro="
@@ -59,7 +79,8 @@ public class RegistroEquipo {
                 + ", propietarioCuentaNumeroDocumento="
                 + propietarioCuentaNumeroDocumento
                 + ", propietariocuentaTipoDocumento="
-                + propietariocuentaTipoDocumento + '}';
+                + propietariocuentaTipoDocumento + ", fechaSalida="
+                + fechaSalida + ", fechaEntrada=" + fechaEntrada + '}';
     }
 
 }
