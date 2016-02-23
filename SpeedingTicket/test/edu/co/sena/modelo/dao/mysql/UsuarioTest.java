@@ -97,4 +97,45 @@ public class UsuarioTest {
 
     }
 
+    @Test
+    public void testUpdatePk() {
+        System.out.println("update usuario");
+        DAOFactory f = new MySQLFactory();
+        UsuarioPk llaveVieja = new UsuarioPk("user12");
+        UsuarioPk llaveNueva = new UsuarioPk("user3012");
+
+        UsuarioDAO instance = f.crearUsuario();
+        instance.updatePk(llaveVieja, llaveNueva);
+        System.out.println("____________________");
+    }
+
+    @Test
+    public void FindByPk() {
+        DAOFactory f = new MySQLFactory();
+        UsuarioDAO instance = f.crearUsuario();
+        UsuarioPk llaves = new UsuarioPk("user14");
+        List<Usuario> result = instance.findByPK(llaves);
+        for (Usuario usuario : result) {
+            System.out.println(usuario.toString());
+        }
+        System.out.println("____________________");
+    }
+
+    @Test
+    public void testDelete() {
+        System.out.println("Delete");
+        DAOFactory f = new MySQLFactory();
+        UsuarioPk llavesBorrar = new UsuarioPk("user21");
+        UsuarioDAO instance = f.crearUsuario();
+        instance.delete(llavesBorrar);
+    }
+
+    @Test
+    public void testCount() {
+        System.out.println("Count");
+        DAOFactory f = new MySQLFactory();
+        UsuarioDAO instance = f.crearUsuario();
+        System.out.println(instance.count());
+    }
+
 }
