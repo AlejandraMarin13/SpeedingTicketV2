@@ -15,8 +15,18 @@ public class Propiedad {
     private String cuentaNumeroDocumento;
     private String cuentaTipoDocumento;
 
-    public Propiedad() {
+    public Propiedad(String equipoIdEquipo, String cuentaNumeroDocumento,
+            String cuentaTipoDocumento) {
+        this.equipoIdEquipo = equipoIdEquipo;
+        this.cuentaNumeroDocumento = cuentaNumeroDocumento;
+        this.cuentaTipoDocumento = cuentaTipoDocumento;
     }
+
+    public Propiedad() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 
     public String getEquipoIdEquipo() {
         return equipoIdEquipo;
@@ -44,7 +54,9 @@ public class Propiedad {
 
     @Override
     public String toString() {
-        return "Propiedad{" + "equipoIdEquipo=" + equipoIdEquipo + ", cuentaNumeroDocumento=" + cuentaNumeroDocumento + ", cuentaTipoDocumento=" + cuentaTipoDocumento + '}';
+        return "Propiedad{" + "equipoIdEquipo=" + equipoIdEquipo 
+                + ", cuentaNumeroDocumento=" + cuentaNumeroDocumento
+                + ", cuentaTipoDocumento=" + cuentaTipoDocumento + '}';
     }
 
     
