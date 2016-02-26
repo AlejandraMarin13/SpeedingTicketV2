@@ -5,7 +5,6 @@
  */
 package edu.co.sena.modelo.dao.mysql;
 
-
 import edu.co.sena.dao.PropiedadDAO;
 import edu.co.sena.modelo.dto.Propiedad;
 import java.sql.Connection;
@@ -139,125 +138,49 @@ public class PropiedadDAOImp implements PropiedadDAO {
         }
     }
 
-    public void update(Propiedad dto) {
-
-        //SE DETERMINA UNA VARIABLE
-        final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstm = null;
-        int rs;
-
-        //REALIZA LA CONEXION
-        try {
-            if (estaConectado) {
-                conex = conexion;
-            } else {
-                conex = ResourceManager.getConeccion();
-            }
-
-            //SE BASA LA INFORMACION CON LA BASE DE DATOS
-            final String SQL = SQL_UPDATE;
-            int indice = 1;
-            System.out.println("Se ejecuto " + SQL);
-            prstm = conex.prepareStatement(SQL);
-
-            prstm.setString(indice++, dto.getEquipoIdEquipo());
-            prstm.setString(indice++, dto.getCuentaTipoDocumento());
-            prstm.setString(indice++, dto.getCuentaNumeroDocumento());
-
-            rs = prstm.executeUpdate();
-
-        } catch (Exception e) {
-            System.out.println("Error dentro del Update: " + e.getMessage());
-        } finally {
-            ResourceManager.closePreparedStatement(prstm);
-            if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
-            }
-        }
-    }
-
+    @Override
     public void delete(Propiedad dto) {
+        // declaracion de variables
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstm = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
         int rs;
 
-        //REALIZA LA CONEXION
         try {
+            // obtener el la conexion 
+
             if (estaConectado) {
-                conex = conexion;
+                conn = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conn = ResourceManager.getConeccion();
             }
 
-            //SE BASA LA INFORMACION CON LA BASE DE DATOS
+            // construct the SQL statement
             final String SQL = SQL_DELETE;
             int indice = 1;
-            System.out.println("Se ejecuto " + SQL);
-            prstm = conex.prepareStatement(SQL);
+            System.out.println("se ejecuto " + SQL);
+            stmt = conn.prepareStatement(SQL);
+            stmt.setString(indice++, dto.getEquipoIdEquipo());
+            stmt.setString(indice++, dto.getCuentaTipoDocumento());
+            stmt.setString(indice++, dto.getCuentaNumeroDocumento());
 
-            prstm.setString(indice++, dto.getEquipoIdEquipo());
-            prstm.setString(indice++, dto.getCuentaTipoDocumento());
-            prstm.setString(indice++, dto.getCuentaNumeroDocumento());
-
-            rs = prstm.executeUpdate();
+            rs = stmt.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println("Error dentro del Update: " + e.getMessage());
+            System.out.println("error en el findAll" + e.getMessage());
         } finally {
-            ResourceManager.closePreparedStatement(prstm);
+            ResourceManager.close((ResultSet) stmt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conn);
             }
         }
+
     }
 
     @Override
-    public int count() {
+    public List<Propiedad> findBy(Propiedad dto) {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstmt = null;
-        ResultSet rs = null;
-        try {
-            if (estaConectado) {
-                conex = conexion;
-            } else {
-                conex = ResourceManager.getConeccion();
-            }
-
-            //SE ASOCIA CON LA BASE DE DATOS
-            final String SQL = SQL_SELECT;
-
-            System.out.println("Se ejecuto " + SQL);
-            prstmt = conex.prepareStatement(SQL);
-            rs = prstmt.executeQuery(SQL_SELECT_COUNT);
-            int i = 0;
-            if (!rs.wasNull()) {
-                while (rs.next()) {
-                    Propiedad propiedad = new Propiedad();
-
-                    i++;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error dentro del FindAll: " + e.getMessage());
-        } finally {
-            ResourceManager.close(rs);
-            ResourceManager.closePreparedStatement(prstmt);
-            if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
-            }
-        }
-        return 1;
-    }
-
-   
-
-    @Override
-    public List<Propiedad> findByPK(Propiedad dto) {
-        final boolean estaConectado = (conexion != null);
-        Connection conex = null;
+        Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Propiedad> lt = new ArrayList<>();
@@ -266,23 +189,22 @@ public class PropiedadDAOImp implements PropiedadDAO {
             // obtener el la conexion 
 
             if (estaConectado) {
-                conex = conexion;
+                conn = conexion;
             } else {
-                conex= ResourceManager.getConeccion();
+                conn = ResourceManager.getConeccion();
             }
 
             // construct the SQL statement
             final String SQL = SQL_SELECTPK;
 
             System.out.println("Se Ha Ejecutado " + SQL);
-            stmt = conex.prepareStatement(SQL);
+            stmt = conn.prepareStatement(SQL);
 
             int indice = 1;
             stmt.setString(indice++, dto.getEquipoIdEquipo());
             // estos van aca
             stmt.setString(indice++, dto.getCuentaNumeroDocumento());
             stmt.setString(indice++, dto.getCuentaTipoDocumento());
-
             // _______
             rs = stmt.executeQuery();
             if (!rs.wasNull()) {
@@ -300,50 +222,46 @@ public class PropiedadDAOImp implements PropiedadDAO {
             System.out.println("error en el findAll " + e.getMessage());
         } finally {
             ResourceManager.close(rs);
-            ResourceManager.closePreparedStatement(stmt);
+            ResourceManager.close((ResultSet) stmt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conn);
             }
         }
         return lt;
-
     }
 
-    
-     @Override
-    public void update(Propiedad llaveDto, Propiedad dto) {
+    @Override
+    public int count() {
         final boolean estaConectado = (conexion != null);
-        Connection conex = null;
-        PreparedStatement prstmnt = null;
-        int result;
-
-        //PROCEDE HACER LA CONEXION
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int r = 0;
         try {
+            // obtener el la conexion 
+
             if (estaConectado) {
-                conex = conexion;
+                conn = conexion;
             } else {
-                conex = ResourceManager.getConeccion();
+                conn = ResourceManager.getConeccion();
             }
 
-            //SE ASOCIA CON LA BASE DE DATOS
-            final String SQL = SQL_DELETE;
-            int indice = 1;
-            System.out.println("se ejecuto" + SQL);
-            prstmnt = conex.prepareStatement(SQL);
-            prstmnt.setString(indice++, dto.getCuentaNumeroDocumento());
-            prstmnt.setString(indice++, dto.getEquipoIdEquipo());
-            prstmnt.setString(indice++, dto.getCuentaTipoDocumento());
-
-            result = prstmnt.executeUpdate();
-
+            // construct the SQL statement
+            final String SQL = SQL_SELECT_COUNT;
+            stmt = conn.prepareStatement(SQL);
+            System.out.println("se ejecuto " + SQL);
+            rs = stmt.executeQuery();
+            rs.next();
+            r = rs.getInt(1);
         } catch (Exception e) {
-            System.out.println("Fallo el Delete: " + e.getMessage());
+            System.out.println("error en el findAll" + e.getMessage());
         } finally {
-            ResourceManager.closePreparedStatement(prstmnt);
+            ResourceManager.close((ResultSet) stmt);
             if (!estaConectado) {
-                ResourceManager.closeConnection(conex);
+                ResourceManager.closeConnection(conn);
             }
         }
-    }
+        return r;
     }
 
+}
