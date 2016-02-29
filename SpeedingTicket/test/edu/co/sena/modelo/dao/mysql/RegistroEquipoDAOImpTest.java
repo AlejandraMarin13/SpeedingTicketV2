@@ -106,7 +106,7 @@ public class RegistroEquipoDAOImpTest {
         Timestamp fechaSalida = new Timestamp(c2.getTimeInMillis());
 
         DAOFactory regequipo = new MySQLFactory();
-        RegistroEquipoPk llave = new RegistroEquipoPk("12", "T.I","98125423140",  "21");
+        RegistroEquipoPk llave = new RegistroEquipoPk();
         RegistroEquipo nuevoRegistro = new RegistroEquipo();
         nuevoRegistro.setFechaEntrada(fechaEntrada);
         nuevoRegistro.setFechaSalida(fechaSalida);
@@ -124,7 +124,7 @@ public class RegistroEquipoDAOImpTest {
     public void testFindByPK() {
      DAOFactory regequipo = new MySQLFactory();
      RegistroEquipoDAO instance = regequipo.crearRegistroEquipo();
-     RegistroEquipoPk llaves = new RegistroEquipoPk("41", "T.I", "971452356", "52");
+     RegistroEquipoPk llaves = new RegistroEquipoPk();
      List<RegistroEquipo> result = instance.findByPK(llaves);
      for(RegistroEquipo registroEquipo : result){
          System.out.println(registroEquipo.toString());
@@ -139,8 +139,8 @@ public class RegistroEquipoDAOImpTest {
     public void testUpdatePk() {
           System.out.println("Update Registro Equipo");
        DAOFactory regequipo = new MySQLFactory();
-        RegistroEquipoPk viejoRegistro  = new RegistroEquipoPk("12","T.I", "98125423140",  "12");
-        RegistroEquipoPk nuevoRegistro = new RegistroEquipoPk("23", "C.C", "102543256", "23");
+        RegistroEquipoPk viejoRegistro  = new RegistroEquipoPk();
+        RegistroEquipoPk nuevoRegistro = new RegistroEquipoPk();
         
         RegistroEquipoDAO instance = regequipo.crearRegistroEquipo();
         instance.updatePk(viejoRegistro, nuevoRegistro, viejoRegistro, 
@@ -156,7 +156,7 @@ public class RegistroEquipoDAOImpTest {
     public void testDelete() {
         System.out.println("Delete");
         DAOFactory regequipo = new MySQLFactory();
-        RegistroEquipoPk borrarLlaves = new RegistroEquipoPk("1", "C.C", "102487521", "1");
+        RegistroEquipoPk borrarLlaves = new RegistroEquipoPk();
         RegistroEquipoDAO instance = regequipo.crearRegistroEquipo();
         instance.delete(borrarLlaves);
         System.out.println("------------------------------------------");
