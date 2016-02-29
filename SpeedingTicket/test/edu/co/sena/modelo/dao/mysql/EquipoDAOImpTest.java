@@ -68,7 +68,7 @@ public class EquipoDAOImpTest {
     public void testInsert() {
         System.out.println("insert");
         DAOFactory equipo = new MySQLFactory();
-       Equipo equipores = new Equipo("12", "Hp", "HP-255");
+       Equipo equipores = new Equipo();
         equipores.setIdEquipo("12");
         equipores.setMarca("hp");
         equipores.setDescripcion("HP-255");
@@ -102,7 +102,7 @@ public class EquipoDAOImpTest {
         System.out.println("update");
         DAOFactory equipo = new MySQLFactory();
         EquipoPk llave = new EquipoPk();
-        Equipo equipoNuevo = new Equipo("16", "hp", "hp-256");
+        Equipo equipoNuevo = new Equipo();
         equipoNuevo.setIdEquipo("15");
         equipoNuevo.setMarca("Dell");
         equipoNuevo.setDescripcion("Dell_12");
